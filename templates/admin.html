@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Buyurtmalar</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .order {
+            background: white;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .item {
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🔔 Buyurtmalar</h1>
+
+ <h2>🟠 Faol buyurtmalar</h2>
+<div id="active-orders">
+    Buyurtmalar yuklanmoqda...
+</div>
+
+<hr>
+
+<h2>🟢 Tayyor buyurtmalar</h2>
+<div id="ready-orders">
+    Hozircha tayyor buyurtmalar yo‘q.
+</div>  
+<script>
+function loadOrders() {
+    Promise.all([
+        fetch("/api/orders").then(response => response.json()),
+        fetch("/api/order-statuses").then(response => response.json())
+    ])
+    .then(([orders, statuses]) => {
+
+        let activeContainer = document.getElementById("active-orders");
+        let readyContainer = document.getElementById("ready-orders");
+
+        activeContainer.innerHTML = "";
+        readyContainer.innerHTML = "";
+
+        orders.forEach(function(order, index) {
+
+            let orderBox = document.createElement("div");
+            orderBox.className = "order";
+
+            orderBox.innerHTML =
+                "<h2>Buyurtma #" + (index + 1) + "</h2>";
+
+            order.forEach(function(item) {
+                orderBox.innerHTML +=
+                    "<div class='item'>" +
+                    item.name + " — " +
+                    item.quantity + " dona — " +
+                    (item.price * item.quantity).toLocaleString() +
+                    " so‘m</div>";
+            });
+
+            if (statuses[String(index)] === "Tayyor") {
+
+                readyContainer.appendChild(orderBox);
+
+            } else {
+
+                let button = document.createElement("button");
+                button.textContent = "✅ Tayyor";
+
+                button.onclick = function() {
+                    fetch("/order-ready/" + index, {
+                        method: "POST"
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message);
+                        loadOrders();
+                    });
+                };
+
+                orderBox.appendChild(button);
+                activeContainer.appendChild(orderBox);
+            }
+        });
+
+        if (activeContainer.innerHTML === "") {
+            activeContainer.innerHTML = "Faol buyurtmalar yo‘q.";
+        }
+
+        if (readyContainer.innerHTML === "") {
+            readyContainer.innerHTML = "Hozircha tayyor buyurtmalar yo‘q.";
+        }
+    });
+}
+
+loadOrders();
+
+setInterval(loadOrders, 5000);
+</script>
+</body>
+
+</html>

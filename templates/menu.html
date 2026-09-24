@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Restoran menyusi</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <h1>🍽 Bizning restoran</h1>
+        <p>Taomlarimiz bilan tanishing</p>
+    </header>
+
+
+    <!-- SAVATCHA -->
+    <div class="cart-box">
+
+        <h3>🛒 Savatcha</h3>
+
+       <div id="cart-items">Savatcha bo‘sh</div>
+
+<div id="cart-total">
+    Jami: 0 so‘m
+</div> <button onclick="placeOrder()">
+    🛒 Buyurtma berish
+</button>
+<div id="order-status-message"></div>
+
+        <hr>
+
+        <div>
+            Jami:
+            <strong id="cart-total">0 so‘m</strong>
+        </div>
+
+        <button class="order-btn" onclick="orderNow()">
+            Buyurtma berish
+        </button>
+
+    </div>
+
+    <!-- BUYURTMALARIM -->
+<div class="my-orders">
+
+    <h2>📋 Buyurtmalarim</h2>
+
+    <div id="my-orders-list">
+        Hozircha buyurtmalar yo‘q.
+    </div>
+
+</div>
+
+
+    <!-- KATEGORIYALAR -->
+    <div class="categories">
+
+        <button class="category-btn active"
+                onclick="showCategory('taomlar', this)">
+            🍲 Taomlar
+        </button>
+
+        <button class="category-btn"
+                onclick="showCategory('ichimliklar', this)">
+            🥤 Ichimliklar
+        </button>
+
+        <button class="category-btn"
+                onclick="showCategory('shirinliklar', this)">
+            🍰 Shirinliklar
+        </button>
+
+    </div>
+
+
+    <!-- MENU -->
+    <main>
+
+        <!-- OSH -->
+        <div class="food taomlar">
+
+            <div class="food-image">
+                <img src="{{ url_for('static', filename='images/Osh.jpg') }}"
+                     alt="Osh">
+            </div>
+
+            <div class="food-info">
+
+                <h2>Osh</h2>
+
+                <p>Milliy o‘zbek taomi</p>
+
+                <strong>35 000 so‘m</strong>
+<button class="add-btn"
+        onclick="addToCart('Osh', 35000)">
+    🛒 Savatchaga
+</button>
+            </div>
+
+        </div>
+
+
+        <!-- SHASHLIK -->
+        <div class="food taomlar">
+
+            <div class="food-image">
+                <img src="{{ url_for('static', filename='images/shashlik.jpg') }}"
+                     alt="Shashlik">
+            </div>
+
+            <div class="food-info">
+
+                <h2>Shashlik</h2>
+
+                <p>Mol go‘shtidan tayyorlangan</p>
+
+                <strong>25 000 so‘m</strong>
+
+                <button class="add-btn"
+                        onclick="addToCart('Shashlik', 25000)">
+                    🛒 Savatchaga
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- SPRITE -->
+        <div class="food ichimliklar">
+
+            <div class="food-image">
+                🥤
+            </div>
+
+            <div class="food-info">
+
+                <h2>Sprite</h2>
+
+                <p>0.5 litr</p>
+
+                <strong>10 000 so‘m</strong>
+
+                <button class="add-btn"
+                        onclick="addToCart('Sprite', 10000)">
+                    🛒 Savatchaga
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- MEDOVIK -->
+        <div class="food shirinliklar">
+
+            <div class="food-image">
+                🍰
+            </div>
+
+            <div class="food-info">
+
+                <h2>Medovik</h2>
+
+                <p>Asalli mazali tort</p>
+
+                <strong>25 000 so‘m</strong>
+
+                <button class="add-btn"
+                        onclick="addToCart('Medovik', 25000)">
+                    🛒 Savatchaga
+                </button>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- JAVASCRIPT -->
+   <script>
+let cart = [];
+
+function addToCart(name, price) {
+
+    let existingItem = cart.find(item => item.name === name);
+
+    if (existingItem) {
+        existingItem.quantity++;
+    } else {
+        cart.push({
+            name: name,
+            price: price,
+            quantity: 1
+        });
+    }
+
+    updateCart();
+}
+
+function updateCart() {
+
+    let cartItems = document.getElementById("cart-items");
+    let cartTotal = document.getElementById("cart-total");
+
+    cartItems.innerHTML = "";
+
+    let total = 0;
+
+    if (cart.length === 0) {
+        cartItems.innerHTML = "Savatcha bo‘sh";
+    }
+
+    cart.forEach(function(item, index) {
+
+        let itemTotal = item.price * item.quantity;
+        total += itemTotal;
+
+        cartItems.innerHTML +=
+            "<div>" +
+            item.name + " — " +
+            item.quantity + " dona — " +
+            itemTotal.toLocaleString() + " so‘m" +
+            " <button onclick='decreaseItem(" + index + ")'>➖</button>" +
+            " <button onclick='increaseItem(" + index + ")'>➕</button>" +
+            " <button onclick='removeItem(" + index + ")'>❌</button>" +
+            "</div>";
+    });
+
+    cartTotal.innerText =
+        "Jami: " + total.toLocaleString() + " so‘m";
+}
+
+function increaseItem(index) {
+    cart[index].quantity++;
+    updateCart();
+}
+
+function decreaseItem(index) {
+
+    cart[index].quantity--;
+
+    if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+    }
+
+    updateCart();
+}
+
+function removeItem(index) {
+    cart.splice(index, 1);
+    updateCart();
+}
+
+function placeOrder() {
+
+    if (cart.length === 0) {
+        alert("Savatcha bo‘sh!");
+        return;
+    }
+
+    fetch("/order", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(cart)
+    })
+    .then(response => response.json())
+    .then(data => {
+
+        alert(data.message);
+
+        cart = [];
+
+        updateCart();
+    });
+}
+
+updateCart();
+let notifiedOrders = {};
+
+function loadMyOrders() {
+
+    fetch("/api/my-orders")
+        .then(response => response.json())
+        .then(myOrders => {
+
+            let container = document.getElementById("my-orders-list");
+
+            container.innerHTML = "";
+
+            if (myOrders.length === 0) {
+                container.innerHTML = "Hozircha buyurtmalar yo‘q.";
+                return;
+            }
+
+            myOrders.forEach(function(order) {
+
+                let orderBox = document.createElement("div");
+
+                orderBox.className = "my-order";
+
+                let statusText =
+                    order.status === "Tayyor"
+                    ? "🟢 Tayyor"
+                    : "🟠 Kutilmoqda";
+
+                orderBox.innerHTML =
+                    "<h3>Buyurtma #" + (order.order_id + 1) + "</h3>" +
+                    "<p><strong>Holati:</strong> " + statusText + "</p>";
+
+                order.items.forEach(function(item) {
+
+                    orderBox.innerHTML +=
+                        "<div>" +
+                        item.name + " — " +
+                        item.quantity + " dona — " +
+                        (item.price * item.quantity).toLocaleString() +
+                        " so‘m" +
+                        "</div>";
+                });
+
+                if (order.status === "Tayyor") {
+
+                    if (!notifiedOrders[order.order_id]) {
+
+                        alert("🎉 Buyurtmangiz tayyor!");
+
+                        notifiedOrders[order.order_id] = true;
+                    }
+                }
+
+                container.appendChild(orderBox);
+            });
+        });
+}
+
+loadMyOrders();
+
+setInterval(loadMyOrders, 5000);
+function showCategory(category) {
+
+    let foods = document.querySelectorAll(".food");
+
+    foods.forEach(function(food) {
+
+        if (category === "all") {
+            food.style.display = "block";
+        }
+        else if (food.classList.contains(category)) {
+            food.style.display = "block";
+        }
+        else {
+            food.style.display = "none";
+        }
+
+    });
+}
+showCategory('taomlar');
+</script>
+           
+
+
+
+</body>
+
+</html>
