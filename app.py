@@ -30,7 +30,9 @@ def qr_codes():
     return render_template("qr_codes.html", tables=tables)
 @app.route("/qr/<int:table_number>")
 def generate_qr(table_number):
-    menu_url = "https://restaurant-menu-1-2157.onrender.com/?table=" + str(table_number)
+
+    menu_url = f"https://restaurant-menu-1-2l57.onrender.com/?table={table_number}"
+
     qr = qrcode.make(menu_url)
 
     img = BytesIO()
@@ -38,7 +40,6 @@ def generate_qr(table_number):
     img.seek(0)
 
     return send_file(img, mimetype="image/png")
-
 @app.route("/api/orders")
 def api_orders():
     return jsonify(orders)
