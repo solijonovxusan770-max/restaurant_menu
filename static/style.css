@@ -1,171 +1,465 @@
+/* =========================
+   UMUMIY SOZLAMALAR
+========================= */
+
 * {
     box-sizing: border-box;
+}
+
+:root {
+    --bg: #101010;
+    --card: #1c1c1c;
+    --gold: #d4af37;
+    --gold-light: #f1d77a;
+    --text: #f5f5f5;
+    --muted: #aaa;
+    --border: #333;
 }
 
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #f5f5f5;
-    color: #222;
+    background: var(--bg);
+    color: var(--text);
 }
 
+/* =========================
+   SAYT SARLAVHASI
+========================= */
+
 header {
-    background: #111;
-    color: white;
+    background: linear-gradient(135deg, #080808, #242016);
+    color: var(--gold);
     text-align: center;
-    padding: 30px 20px;
+    padding: 40px 20px;
+    border-bottom: 1px solid #5a4820;
 }
 
 header h1 {
-    margin: 0 0 8px;
+    margin: 0 0 10px;
+    font-size: 32px;
+    letter-spacing: 1px;
 }
 
 header p {
     margin: 0;
-    color: #ccc;
+    color: #c5b98f;
+    font-size: 15px;
 }
+
+/* =========================
+   KATEGORIYALAR
+========================= */
 
 .categories {
     display: flex;
-    gap: 10px;
-    padding: 15px;
+    gap: 12px;
+    padding: 20px 15px;
     overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold) var(--bg);
 }
 
-.categories button {
-    border: none;
-    padding: 12px 18px;
-    border-radius: 20px;
-    background: white;
+.categories button,
+.category-btn {
+    border: 1px solid #51431e;
+    padding: 12px 20px;
+    border-radius: 25px;
+    background: #1b1b1b;
+    color: var(--gold-light);
     font-size: 15px;
     white-space: nowrap;
+    cursor: pointer;
+    transition: 0.25s;
 }
 
-main {
-    padding: 0 15px 30px;
+.categories button:hover,
+.category-btn:hover {
+    background: #302817;
 }
+
+.category-btn.active {
+    background: var(--gold);
+    color: #111;
+    border-color: var(--gold);
+    font-weight: bold;
+    transform: scale(1.03);
+}
+
+/* =========================
+   ASOSIY QISM
+========================= */
+
+main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 10px 20px 35px;
+}
+
+/* =========================
+   TAOM KARTOCHKALARI
+========================= */
 
 .food {
     display: flex;
-    background: white;
-    margin-bottom: 15px;
-    border-radius: 15px;
+    background: var(--card);
+    margin-bottom: 20px;
+    border: 1px solid #303030;
+    border-radius: 18px;
     overflow: hidden;
-    box-shadow: 0 2px 8px #ddd;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.25s, border-color 0.25s;
+}
+
+.food:hover {
+    transform: translateY(-3px);
+    border-color: #806a2e;
+}
+
+.food-image {
+    flex: 0 0 40%;
+    min-height: 170px;
 }
 
 .food-image img {
+    display: block;
     width: 100%;
     height: 100%;
-    min-height: 110px;
+    min-height: 170px;
     object-fit: cover;
 }
 
 .food-info {
-    padding: 15px;
+    flex: 1;
+    padding: 20px;
 }
 
 .food-info h2 {
-    margin: 0 0 7px;
+    margin: 0 0 10px;
+    color: var(--gold-light);
+    font-size: 22px;
 }
 
 .food-info p {
-    margin: 0 0 12px;
-    color: #777;
+    margin: 0 0 15px;
+    color: var(--muted);
+    line-height: 1.5;
 }
 
 .food-info strong {
-    font-size: 18px;
+    font-size: 20px;
+    color: var(--gold);
 }
-.category-btn {
-    border: none;
+
+/* =========================
+   SAVATCHAGA QO‘SHISH TUGMASI
+========================= */
+
+.add-btn {
+    margin-top: 15px;
     padding: 12px 18px;
-    border-radius: 20px;
-    background: white;
-    font-size: 15px;
-    white-space: nowrap;
+    border: none;
+    border-radius: 10px;
+    background: var(--gold);
+    color: #111;
     cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
     transition: 0.2s;
 }
 
-.category-btn.active {
-    background: #111;
-    color: white;
-    transform: scale(1.03);
-}.add-btn {
-    margin-top: 10px;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 10px;
-    background: #111;
-    color: white;
-    cursor: pointer;
-    font-size: 14px;
+.add-btn:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
 }
 
 .add-btn:active {
     transform: scale(0.97);
-}.cart-box {
-    margin: 15px;
-    padding: 15px;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 2px 8px #ddd;
+}
+
+/* =========================
+   SAVATCHA
+========================= */
+
+.cart-box {
+    max-width: 1060px;
+    margin: 20px auto;
+    padding: 22px;
+    background: var(--card);
+    border: 1px solid #51431e;
+    border-radius: 18px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
     font-size: 16px;
 }
 
-.cart-box strong {
-    font-size: 18px;
+.cart-box h2 {
+    color: var(--gold);
 }
+
+.cart-box strong {
+    font-size: 19px;
+    color: var(--gold-light);
+}
+
+/* =========================
+   SAVATCHADAGI TAOMLAR
+========================= */
+
 .cart-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
+    gap: 10px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
 }
 
 .cart-item button {
-    width: 30px;
-    height: 30px;
-    border: none;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #6b5724;
     border-radius: 8px;
-    background: #111;
-    color: white;
+    background: #292316;
+    color: var(--gold);
     font-size: 18px;
     cursor: pointer;
+    transition: 0.2s;
+}
+
+.cart-item button:hover {
+    background: var(--gold);
+    color: #111;
 }
 
 .cart-item span {
     margin: 0 8px;
 }
 
+/* =========================
+   BUYURTMA BERISH TUGMASI
+========================= */
+
 .order-btn {
     width: 100%;
-    margin-top: 15px;
-    padding: 13px;
+    margin-top: 18px;
+    padding: 15px;
     border: none;
     border-radius: 10px;
-    background: #111;
-    color: white;
-    font-size: 16px;
+    background: var(--gold);
+    color: #111;
+    font-size: 17px;
+    font-weight: bold;
     cursor: pointer;
-}.cart-item {
+    transition: 0.2s;
+}
+
+.order-btn:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+}
+
+/* =========================
+   TELEFONLARGA MOSLASH
+========================= */
+
+@media (max-width: 600px) {
+    header {
+        padding: 30px 15px;
+    }
+
+    header h1 {
+        font-size: 25px;
+    }
+
+    main {
+        padding: 10px 12px 25px;
+    }
+
+    .food {
+        flex-direction: column;
+    }
+
+    .food-image {
+        flex: auto;
+        height: 210px;
+    }
+
+    .food-image img {
+        height: 210px;
+        min-height: 210px;
+    }
+
+    .food-info {
+        padding: 18px;
+    }
+
+    .food-info h2 {
+        font-size: 20px;
+    }
+
+    .cart-box {
+        margin: 15px 12px;
+        padding: 18px;
+    }
+
+    .categories {
+        padding: 15px 12px;
+    }
+}/* ==================================
+   INSTAGRAM USLUBIDAGI TAOM KARTALARI
+================================== */
+
+main {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 15px 20px 35px;
+    align-items: start;
+}
+
+/* Har bir taom kartasi */
+
+.food {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    min-width: 0;
+    margin: 0;
+    background: #191919;
+    border: 1px solid #40351d;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: 0.25s;
+}
+
+.food:hover {
+    transform: translateY(-4px);
+    border-color: #d4af37;
+}
+
+/* Taom rasmi */
+
+.food-image {
+    width: 100%;
+    height: 180px;
+    min-height: 0;
+    overflow: hidden;
+    background: #242018;
+    display: flex;
     align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
+    justify-content: center;
+    font-size: 55px;
 }
 
-.cart-item button {
-    width: 30px;
-    height: 30px;
-    border: none;
-    border-radius: 8px;
-    background: #111;
-    color: white;
-    font-size: 18px;
+.food-image img {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s;
+}
+
+.food:hover .food-image img {
+    transform: scale(1.04);
+}
+
+/* Taom haqida ma'lumot */
+
+.food-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 15px;
+}
+
+.food-info h2 {
+    margin: 0 0 8px;
+    color: #f1d77a;
+    font-size: 20px;
+}
+
+.food-info p {
+    margin: 0 0 12px;
+    color: #aaa;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.food-info strong {
+    color: #d4af37;
+    font-size: 19px;
+    margin-top: auto;
+}
+
+/* Savatchaga tugmasi */
+
+.add-btn {
+    width: 100%;
+    margin-top: 14px;
+    padding: 11px 8px;
+    border: 1px solid #d4af37;
+    border-radius: 25px;
+    background: transparent;
+    color: #f1d77a;
+    font-size: 14px;
+    font-weight: bold;
     cursor: pointer;
+    transition: 0.2s;
 }
 
+.add-btn:hover {
+    background: #d4af37;
+    color: #111;
+}
+
+/* Planshet ekranlari */
+
+@media (max-width: 900px) {
+    main {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 15px;
+    }
+
+    .food-image {
+        height: 170px;
+    }
+}
+
+/* Telefon ekranlari */
+
+@media (max-width: 480px) {
+    main {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .food-image {
+        height: 125px;
+    }
+
+    .food-info {
+        padding: 10px;
+    }
+
+    .food-info h2 {
+        font-size: 17px;
+    }
+
+    .food-info p {
+        font-size: 12px;
+    }
+
+    .food-info strong {
+        font-size: 15px;
+    }
+
+    .add-btn {
+        font-size: 12px;
+        padding: 9px 4px;
+    }
+}

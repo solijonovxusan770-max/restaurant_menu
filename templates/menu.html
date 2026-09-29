@@ -16,36 +16,33 @@
     <!-- HEADER -->
     <header>
         <h1>🍽 Bizning restoran</h1>
+        {% if table_number %}
+    <p>🪑 Stol raqami: {{ table_number }}</p>
+{% endif %}
         <p>Taomlarimiz bilan tanishing</p>
     </header>
 
 
     <!-- SAVATCHA -->
-    <div class="cart-box">
+<div class="cart-box">
 
-        <h3>🛒 Savatcha</h3>
+    <h3>🛒 Savatcha</h3>
 
-       <div id="cart-items">Savatcha bo‘sh</div>
+    <div id="cart-items">Savatcha bo‘sh</div>
 
-<div id="cart-total">
-    Jami: 0 so‘m
-</div> <button onclick="placeOrder()">
-    🛒 Buyurtma berish
-</button>
-<div id="order-status-message"></div>
+    <hr>
 
-        <hr>
-
-        <div>
-            Jami:
-            <strong id="cart-total">0 so‘m</strong>
-        </div>
-
-        <button class="order-btn" onclick="orderNow()">
-            Buyurtma berish
-        </button>
-
+    <div id="cart-total">
+        Jami: 0 so‘m
     </div>
+
+    <button class="order-btn" onclick="placeOrder()">
+        🛒 Buyurtma berish
+    </button>
+
+    <div id="order-status-message"></div>
+
+</div>
 
     <!-- BUYURTMALARIM -->
 <div class="my-orders">
@@ -131,13 +128,74 @@
             </div>
 
         </div>
+        <!-- SOMSA -->
+<div class="food taomlar">
+
+    <div class="food-image">
+        <img src="{{ url_for('static', filename='images/Somsa.jpg') }}"
+             alt="Somsa">
+    </div>
+
+    <div class="food-info">
+        <h2>Somsa</h2>
+        <p>Issiq va mazali go‘shtli somsa</p>
+        <strong>15 000 so‘m</strong>
+
+        <button class="add-btn"
+                onclick="addToCart('Somsa', 15000)">
+            🛒 Savatchaga
+        </button>
+    </div>
+
+</div>
+<!-- MANTI -->
+<div class="food taomlar">
+
+    <div class="food-image">
+        <img src="{{ url_for('static', filename='images/Manti.jpg') }}"
+             alt="Manti">
+    </div>
+
+    <div class="food-info">
+        <h2>Manti</h2>
+        <p>Go‘shtli an’anaviy manti</p>
+        <strong>30 000 so‘m</strong>
+
+        <button class="add-btn"
+                onclick="addToCart('Manti', 30000)">
+            🛒 Savatchaga
+        </button>
+    </div>
+
+</div>
+<!-- SHORVA -->
+<div class="food taomlar">
+
+    <div class="food-image">
+        <img src="{{ url_for('static', filename='images/Shorva.jpg') }}"
+             alt="Sho‘rva">
+    </div>
+
+    <div class="food-info">
+        <h2>Sho‘rva</h2>
+        <p>Issiq va mazali go‘shtli sho‘rva</p>
+        <strong>28 000 so‘m</strong>
+
+        <button class="add-btn"
+                onclick="addToCart('Sho‘rva', 28000)">
+            🛒 Savatchaga
+        </button>
+    </div>
+
+</div>
 
 
         <!-- SPRITE -->
         <div class="food ichimliklar">
 
             <div class="food-image">
-                🥤
+            <img src="{{ url_for('static', filename='images/Sprite.jpg') }}"
+                 alt="Sprite">    
             </div>
 
             <div class="food-info">
@@ -156,13 +214,94 @@
             </div>
 
         </div>
+        <!-- KOMPOT -->
+<div class="food ichimliklar">
+
+    <div class="food-image">
+        <img src="{{ url_for('static', filename='images/Kompot.jpg') }}"
+             alt="Kompot">
+    </div>
+
+    <div class="food-info">
+        <h2>Kompot</h2>
+        <p>Uy usulida tayyorlangan mevali ichimlik</p>
+        <strong>8 000 so‘m</strong>
+
+        <button class="add-btn"
+                onclick="addToCart('Kompot', 8000)">
+            🛒 Savatchaga
+        </button>
+    </div>
+
+</div>
+<!-- CHOY -->
+<div class="food ichimliklar">
+
+    <div class="food-image">
+        <img src="{{ url_for('static', filename='images/Choy.jpg') }}"
+             alt="Choy">
+    </div>
+
+    <div class="food-info">
+        <h2>Choy</h2>
+        <p>Issiq qora choy</p>
+        <strong>5 000 so‘m</strong>
+
+        <button class="add-btn"
+                onclick="addToCart('Choy', 5000)">
+            🛒 Savatchaga
+        </button>
+    </div>
+
+</div>
+<!-- COLA -->
+<div class="food ichimliklar">
+
+    <div class="food-image">
+        <img src="{{ url_for('static', filename='images/Cola.jpg') }}"
+             alt="Cola">
+    </div>
+
+    <div class="food-info">
+        <h2>Cola</h2>
+        <p>0.5 litr</p>
+        <strong>10 000 so‘m</strong>
+
+        <button class="add-btn"
+                onclick="addToCart('Cola', 12000)">
+            🛒 Savatchaga
+        </button>
+    </div>
+
+</div>
+<!-- PEPSI -->
+<div class="food ichimliklar">
+
+    <div class="food-image">
+        <img src="{{ url_for('static', filename='images/Pepsi.jpg') }}"
+             alt="Pepsi">
+    </div>
+
+    <div class="food-info">
+        <h2>Pepsi</h2>
+        <p>0.5 litr</p>
+        <strong>10 000 so‘m</strong>
+
+        <button class="add-btn"
+                onclick="addToCart('Pepsi', 12000)">
+            🛒 Savatchaga
+        </button>
+    </div>
+
+</div>
 
 
         <!-- MEDOVIK -->
         <div class="food shirinliklar">
 
             <div class="food-image">
-                🍰
+                <img src="{{ url_for('static', filename='images/Medovik.jpg') }}"
+                     alt="Medovik">
             </div>
 
             <div class="food-info">
@@ -181,6 +320,47 @@
             </div>
 
         </div>
+      <!-- AFG‘ONSKI -->
+<div class="food shirinliklar">
+
+    <div class="food-image">
+        <img src="{{ url_for('static', filename='images/Avganiski.jpg') }}"
+             alt="Avganiski">
+    </div>
+
+    <div class="food-info">
+        <h2>Avganiski</h2>
+        <p>Shirin va mazali desert</p>
+        <strong>30 000 so‘m</strong>
+
+        <button class="add-btn"
+                onclick="addToCart('Avganiski', 30000)">
+            🛒 Savatchaga
+        </button>
+    </div>
+
+</div>
+
+        <!-- CHAK-CHAK -->
+<div class="food shirinliklar">
+
+    <div class="food-image">
+        <img src="{{ url_for('static', filename='images/Chak-chak.jpg') }}"
+             alt="Chak-chak">
+    </div>
+
+    <div class="food-info">
+        <h2>Chak-chak</h2>
+        <p>Asalli mazali shirinlik</p>
+        <strong>18 000 so‘m</strong>
+
+        <button class="add-btn"
+                onclick="addToCart('Chak-chak', 18000)">
+            🛒 Savatchaga
+        </button>
+    </div>
+
+</div>
 
     </main>
 

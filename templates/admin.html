@@ -3,120 +3,596 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Buyurtmalar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin panel</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background: #f5f5f5;
+            background: #f3f4f6;
+            color: #222;
+        }
+
+        /* HEADER */
+        .header {
+            background: white;
+            padding: 22px 30px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .header-left h1 {
+            font-size: 28px;
+            margin-bottom: 6px;
+        }
+
+        .header-left p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .refresh-btn {
+            border: none;
+            background: #111827;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .refresh-btn:hover {
+            background: #374151;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 30px;
         }
 
-        h1 {
-            text-align: center;
+        /* STAT CARDS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
         }
 
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 16px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .stat-title {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        /* SECTIONS */
+        .section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .section-title h2 {
+            font-size: 22px;
+        }
+
+        .section-badge {
+            background: #e5e7eb;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        /* ORDERS GRID */
+        .orders {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        /* ORDER CARD */
         .order {
             background: white;
+            border-radius: 16px;
             padding: 20px;
-            margin: 20px auto;
-            max-width: 600px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+        }
+
+        .order.ready {
+            border-left: 5px solid #22c55e;
+        }
+
+        .order.active {
+            border-left: 5px solid #f59e0b;
+        }
+
+        .order-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .order-number {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .status {
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-waiting {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .status-ready {
+            background: #f0fdf4;
+            color: #15803d;
+        }
+
+        .table-number {
+            background: #f9fafb;
             border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 10px 12px;
+            margin-bottom: 15px;
+            font-size: 15px;
+            font-weight: bold;
         }
 
         .item {
-            padding: 8px 0;
-            border-bottom: 1px solid #ddd;
+            padding: 11px 0;
+            border-bottom: 1px solid #eeeeee;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            font-size: 14px;
+        }
+
+        .item:last-child {
+            border-bottom: none;
+        }
+
+        .item-left {
+            color: #333;
+        }
+
+        .item-right {
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .ready-btn {
+            width: 100%;
+            margin-top: 16px;
+            border: none;
+            background: #16a34a;
+            color: white;
+            padding: 13px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .ready-btn:hover {
+            background: #15803d;
+        }
+
+        .empty {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            border: 1px dashed #d1d5db;
+            color: #777;
+            text-align: center;
+        }
+
+        .last-update {
+            text-align: center;
+            color: #888;
+            font-size: 12px;
+            margin-top: 15px;
+        }
+
+        /* MOBILE */
+        @media (max-width: 800px) {
+
+            .container {
+                padding: 18px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .orders {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 18px;
+            }
+
+            .header-left h1 {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <h1>🔔 Buyurtmalar</h1>
+    <!-- HEADER -->
+    <header class="header">
 
- <h2>🟠 Faol buyurtmalar</h2>
-<div id="active-orders">
-    Buyurtmalar yuklanmoqda...
+        <div class="header-left">
+            <h1>🔔 Admin panel</h1>
+            <p>Restoran buyurtmalarini boshqarish</p>
+        </div>
+
+        <button class="refresh-btn" onclick="loadOrders()">
+            🔄 Yangilash
+        </button>
+
+    </header>
+
+
+    <div class="container">
+
+        <!-- STATISTIKA -->
+        <div class="stats">
+
+    <div class="stat-card">
+        <div class="stat-title">📦 Bugungi buyurtmalar</div>
+        <div class="stat-number" id="today-orders">0</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-title">💰 Bugungi tushum</div>
+        <div class="stat-number" id="today-revenue">0 so‘m</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-title">🟠 Faol buyurtmalar</div>
+        <div class="stat-number" id="active-count">0</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-title">🟢 Tayyor buyurtmalar</div>
+        <div class="stat-number" id="ready-count">0</div>
+    </div>
+
 </div>
 
-<hr>
 
-<h2>🟢 Tayyor buyurtmalar</h2>
-<div id="ready-orders">
-    Hozircha tayyor buyurtmalar yo‘q.
-</div>  
-<script>
-function loadOrders() {
-    Promise.all([
-        fetch("/api/orders").then(response => response.json()),
-        fetch("/api/order-statuses").then(response => response.json())
-    ])
-    .then(([orders, statuses]) => {
+        <!-- FAOL BUYURTMALAR -->
+        <section class="section">
 
-        let activeContainer = document.getElementById("active-orders");
-        let readyContainer = document.getElementById("ready-orders");
+            <div class="section-title">
+                <h2>🟠 Faol buyurtmalar</h2>
+                <span class="section-badge">Kutilmoqda</span>
+            </div>
 
-        activeContainer.innerHTML = "";
-        readyContainer.innerHTML = "";
+            <div id="active-orders" class="orders">
+                <div class="empty">Buyurtmalar yuklanmoqda...</div>
+            </div>
 
-        orders.forEach(function(order, index) {
+        </section>
 
-            let orderBox = document.createElement("div");
-            orderBox.className = "order";
 
-            orderBox.innerHTML =
-                "<h2>Buyurtma #" + (index + 1) + "</h2>";
+        <!-- TAYYOR BUYURTMALAR -->
+        <section class="section">
 
-            order.forEach(function(item) {
-                orderBox.innerHTML +=
-                    "<div class='item'>" +
-                    item.name + " — " +
-                    item.quantity + " dona — " +
-                    (item.price * item.quantity).toLocaleString() +
-                    " so‘m</div>";
-            });
+            <div class="section-title">
+                <h2>🟢 Tayyor buyurtmalar</h2>
+                <span class="section-badge">Tayyor</span>
+            </div>
 
-            if (statuses[String(index)] === "Tayyor") {
+            <div id="ready-orders" class="orders">
+                <div class="empty">Hozircha tayyor buyurtmalar yo‘q.</div>
+            </div>
 
-                readyContainer.appendChild(orderBox);
+        </section>
 
-            } else {
 
-                let button = document.createElement("button");
-                button.textContent = "✅ Tayyor";
+        <div class="last-update" id="last-update">
+            Ma'lumotlar yuklanmoqda...
+        </div>
 
-                button.onclick = function() {
-                    fetch("/order-ready/" + index, {
-                        method: "POST"
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        alert(data.message);
-                        loadOrders();
-                    });
-                };
+    </div>
 
-                orderBox.appendChild(button);
-                activeContainer.appendChild(orderBox);
-            }
+
+    <script>
+        function loadStats() {
+
+    fetch("/api/stats")
+        .then(response => response.json())
+        .then(data => {
+
+            document.getElementById("today-orders").textContent =
+                data.today_orders;
+
+            document.getElementById("today-revenue").textContent =
+                data.today_revenue.toLocaleString() + " so‘m";
+
+            document.getElementById("active-count").textContent =
+                data.active_orders;
+
+            document.getElementById("ready-count").textContent =
+                data.ready_orders;
         });
-
-        if (activeContainer.innerHTML === "") {
-            activeContainer.innerHTML = "Faol buyurtmalar yo‘q.";
-        }
-
-        if (readyContainer.innerHTML === "") {
-            readyContainer.innerHTML = "Hozircha tayyor buyurtmalar yo‘q.";
-        }
-    });
 }
 
-loadOrders();
+        function loadOrders() {
+
+            Promise.all([
+                fetch("/api/orders").then(response => response.json()),
+                fetch("/api/order-statuses").then(response => response.json())
+            ])
+
+            .then(([orders, statuses]) => {
+
+                let activeContainer =
+                    document.getElementById("active-orders");
+
+                let readyContainer =
+                    document.getElementById("ready-orders");
+
+                let activeCount =
+                    document.getElementById("active-count");
+
+                let readyCount =
+                    document.getElementById("ready-count");
+
+                activeContainer.innerHTML = "";
+                readyContainer.innerHTML = "";
+
+                let activeTotal = 0;
+                let readyTotal = 0;
+
+
+                orders.forEach(function(order, index) {
+
+                    let isReady =
+                        statuses[String(index)] === "Tayyor";
+
+
+                    let orderBox =
+                        document.createElement("div");
+
+                    orderBox.className =
+                        "order " + (isReady ? "ready" : "active");
+
+
+                    let total = 0;
+
+
+                    let itemsHTML = "";
+
+                    order.forEach(function(item) {
+
+                        let itemTotal =
+                            item.price * item.quantity;
+
+                        total += itemTotal;
+
+                        itemsHTML +=
+                            "<div class='item'>" +
+
+                            "<div class='item-left'>" +
+                            item.name +
+                            " × " +
+                            item.quantity +
+                            "</div>" +
+
+                            "<div class='item-right'>" +
+                            itemTotal.toLocaleString() +
+                            " so‘m" +
+                            "</div>" +
+
+                            "</div>";
+                    });
+
+
+                    let tableNumber =
+                        order.length > 0 && order[0].table_number
+                        ? order[0].table_number
+                        : "Noma'lum";
+
+
+                    orderBox.innerHTML =
+
+                        "<div class='order-top'>" +
+
+                            "<div class='order-number'>" +
+                                "Buyurtma #" +
+                                (index + 1) +
+                            "</div>" +
+
+                            "<div class='status " +
+                            (isReady
+                                ? "status-ready"
+                                : "status-waiting") +
+                            "'>" +
+
+                            (isReady
+                                ? "🟢 Tayyor"
+                                : "🟠 Kutilmoqda") +
+
+                            "</div>" +
+
+                        "</div>" +
+
+                        "<div class='table-number'>" +
+                            "🪑 Stol raqami: " +
+                            tableNumber +
+                        "</div>" +
+
+                        itemsHTML +
+
+                        "<div class='order-total'>" +
+
+                            "<span>Jami</span>" +
+
+                            "<span>" +
+                                total.toLocaleString() +
+                                " so‘m" +
+                            "</span>" +
+
+                        "</div>";
+
+
+                    if (isReady) {
+
+                        readyContainer.appendChild(orderBox);
+
+                        readyTotal++;
+
+                    } else {
+
+                        let button =
+                            document.createElement("button");
+
+                        button.className = "ready-btn";
+
+                        button.textContent =
+                            "✅ Buyurtmani tayyor";
+
+                        button.onclick = function() {
+
+                            fetch(
+                                "/order-ready/" + index,
+                                {
+                                    method: "POST"
+                                }
+                            )
+
+                            .then(response =>
+                                response.json()
+                            )
+
+                            .then(data => {
+
+                                alert(data.message);
+
+                                loadOrders();
+
+                            });
+
+                        };
+
+                        orderBox.appendChild(button);
+
+                        activeContainer.appendChild(orderBox);
+
+                        activeTotal++;
+                    }
+
+                });
+
+
+                if (activeTotal === 0) {
+
+                    activeContainer.innerHTML =
+                        "<div class='empty'>" +
+                        "Faol buyurtmalar yo‘q." +
+                        "</div>";
+                }
+
+
+                if (readyTotal === 0) {
+
+                    readyContainer.innerHTML =
+                        "<div class='empty'>" +
+                        "Hozircha tayyor buyurtmalar yo‘q." +
+                        "</div>";
+                }
+
+
+                activeCount.textContent = activeTotal;
+                readyCount.textContent = readyTotal;
+
+
+                document.getElementById("last-update")
+                    .textContent =
+                    "Oxirgi yangilanish: " +
+                    new Date().toLocaleTimeString();
+
+            })
+
+            .catch(function(error) {
+
+                console.error(error);
+
+                document.getElementById("active-orders").innerHTML =
+                    "<div class='empty'>" +
+                    "Buyurtmalarni yuklashda xatolik yuz berdi." +
+                    "</div>";
+
+            });
+
+        }
+
+
+        // Birinchi yuklash
+        loadOrders();
+
+
+       loadOrders();
+loadStats();
 
 setInterval(loadOrders, 5000);
-</script>
+setInterval(loadStats, 5000);
+
+    </script>
+
 </body>
 
 </html>
